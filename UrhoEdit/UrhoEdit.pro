@@ -12,6 +12,13 @@ TARGET = UrhoEdit
 TEMPLATE = app
 
 
+DESTDIR = ../../UrhoEditBin
+MOC_DIR = ../../UrhoEditBin/.moc
+UI_DIR = ../../UrhoEditBin/.uic
+RCC_DIR = ../../UrhoEditBin/.rcc
+OBJECTS_DIR = ../../UrhoEditBin/.obj
+
+
 SOURCES += main.cpp\
         MainWindow.cpp
 
