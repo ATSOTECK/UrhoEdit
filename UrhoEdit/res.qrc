@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Styles/DarkMainMac.qss</file>
+        <file>Styles/DarkMainWin.qss</file>
+        <file>Styles/QLineEditConsoleMac.qss</file>
+        <file>Styles/QLineEditConsoleWin.qss</file>
+        <file>Resources/Images/run.png</file>
+    </qresource>
+</RCC>

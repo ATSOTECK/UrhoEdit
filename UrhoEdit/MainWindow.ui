@@ -79,7 +79,32 @@
    <addaction name="actionRun"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QDockWidget" name="resourcesDockWidget">
+   <property name="windowTitle">
+    <string>Resources</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="resourcesDockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QTreeWidget" name="resourcesTree">
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actionRun">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/Resources/Images/run.png</normaloff>:/Resources/Images/run.png</iconset>
+   </property>
    <property name="text">
     <string>Run</string>
    </property>
@@ -159,6 +184,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>
