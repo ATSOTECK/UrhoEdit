@@ -21,10 +21,26 @@ OBJECTS_DIR = ../../UrhoEditBin/.obj
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-    NewResourceDialog.cpp
+    NewResourceDialog.cpp \
+    CodeEditor/addRemoveText.cpp \
+    CodeEditor/backtraceWidget.cpp \
+    CodeEditor/bookMark.cpp \
+    CodeEditor/codeEditor.cpp \
+    CodeEditor/highlighter.cpp \
+    CodeEditor/locaterWidget.cpp \
+    CodeEditor/miniMap.cpp \
+    CodeEditor/searchWidget.cpp
 
 HEADERS  += MainWindow.h \
-    NewResourceDialog.h
+    NewResourceDialog.h \
+    CodeEditor/addRemoveText.h \
+    CodeEditor/backtraceWidget.h \
+    CodeEditor/bookMark.h \
+    CodeEditor/codeEditor.h \
+    CodeEditor/highlighter.h \
+    CodeEditor/locaterWidget.h \
+    CodeEditor/miniMap.h \
+    CodeEditor/searchWidget.h
 
 FORMS    += MainWindow.ui \
     NewResourceDialog.ui

@@ -29,6 +29,8 @@ public slots:
     
     void newResource();
     
+    void showConsole();
+    
     void runGame();
     
 private:

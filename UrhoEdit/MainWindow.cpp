@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionSave_as, SIGNAL(triggered()), this, SLOT(saveAs()));
     connect(ui->actionNew_Resource, SIGNAL(triggered()), this, SLOT(newResource()));
+    connect(ui->actionShow_Console, SIGNAL(triggered()), this, SLOT(showConsole()));
     connect(ui->actionRun, SIGNAL(triggered()), this, SLOT(runGame()));
     
     qInstallMessageHandler(catchMessage);
@@ -137,6 +138,10 @@ void MainWindow::saveAs() {
 void MainWindow::newResource() {
     NewResourceDialog *nd = new NewResourceDialog(this);
     nd->exec();
+}
+
+void MainWindow::showConsole() {
+    ui->consoleDockWidget->setHidden(!ui->consoleDockWidget->isHidden());
 }
 
 void MainWindow::runGame() {

@@ -47,15 +47,37 @@ OBJECTS_DIR   = ../../UrhoEditBin/.obj/
 
 SOURCES       = main.cpp \
 		MainWindow.cpp \
-		NewResourceDialog.cpp ../../UrhoEditBin/.rcc/qrc_res.cpp \
+		NewResourceDialog.cpp \
+		CodeEditor/addRemoveText.cpp \
+		CodeEditor/backtraceWidget.cpp \
+		CodeEditor/bookMark.cpp \
+		CodeEditor/codeEditor.cpp \
+		CodeEditor/highlighter.cpp \
+		CodeEditor/locaterWidget.cpp \
+		CodeEditor/miniMap.cpp \
+		CodeEditor/searchWidget.cpp ../../UrhoEditBin/.rcc/qrc_res.cpp \
 		../../UrhoEditBin/.moc/moc_MainWindow.cpp \
-		../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
+		../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp \
+		../../UrhoEditBin/.moc/moc_codeEditor.cpp \
+		../../UrhoEditBin/.moc/moc_highlighter.cpp \
+		../../UrhoEditBin/.moc/moc_searchWidget.cpp
 OBJECTS       = ../../UrhoEditBin/.obj/main.o \
 		../../UrhoEditBin/.obj/MainWindow.o \
 		../../UrhoEditBin/.obj/NewResourceDialog.o \
+		../../UrhoEditBin/.obj/addRemoveText.o \
+		../../UrhoEditBin/.obj/backtraceWidget.o \
+		../../UrhoEditBin/.obj/bookMark.o \
+		../../UrhoEditBin/.obj/codeEditor.o \
+		../../UrhoEditBin/.obj/highlighter.o \
+		../../UrhoEditBin/.obj/locaterWidget.o \
+		../../UrhoEditBin/.obj/miniMap.o \
+		../../UrhoEditBin/.obj/searchWidget.o \
 		../../UrhoEditBin/.obj/qrc_res.o \
 		../../UrhoEditBin/.obj/moc_MainWindow.o \
-		../../UrhoEditBin/.obj/moc_NewResourceDialog.o
+		../../UrhoEditBin/.obj/moc_NewResourceDialog.o \
+		../../UrhoEditBin/.obj/moc_codeEditor.o \
+		../../UrhoEditBin/.obj/moc_highlighter.o \
+		../../UrhoEditBin/.obj/moc_searchWidget.o
 DIST          = ../../../Qt5.2.0.ios/5.2.0/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/mkspecs/qdevice.pri \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/mkspecs/features/device_config.prf \
@@ -467,7 +489,7 @@ qmake_all: FORCE
 	@$(COPY_FILE) Resources/Images/icon.icns ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/icon.icns
 dist: 
 	@test -d ../../UrhoEditBin/.obj/UrhoEdit1.0.0 || mkdir -p ../../UrhoEditBin/.obj/UrhoEdit1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents res.qrc ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.h NewResourceDialog.h ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents main.cpp MainWindow.cpp NewResourceDialog.cpp ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.ui NewResourceDialog.ui ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && (cd `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0` && $(TAR) UrhoEdit1.0.0.tar UrhoEdit1.0.0 && $(COMPRESS) UrhoEdit1.0.0.tar) && $(MOVE) `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0`/UrhoEdit1.0.0.tar.gz . && $(DEL_FILE) -r ../../UrhoEditBin/.obj/UrhoEdit1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents res.qrc ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.h NewResourceDialog.h CodeEditor/addRemoveText.h CodeEditor/backtraceWidget.h CodeEditor/bookMark.h CodeEditor/codeEditor.h CodeEditor/highlighter.h CodeEditor/locaterWidget.h CodeEditor/miniMap.h CodeEditor/searchWidget.h ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents main.cpp MainWindow.cpp NewResourceDialog.cpp CodeEditor/addRemoveText.cpp CodeEditor/backtraceWidget.cpp CodeEditor/bookMark.cpp CodeEditor/codeEditor.cpp CodeEditor/highlighter.cpp CodeEditor/locaterWidget.cpp CodeEditor/miniMap.cpp CodeEditor/searchWidget.cpp ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.ui NewResourceDialog.ui ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && (cd `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0` && $(TAR) UrhoEdit1.0.0.tar UrhoEdit1.0.0 && $(COMPRESS) UrhoEdit1.0.0.tar) && $(MOVE) `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0`/UrhoEdit1.0.0.tar.gz . && $(DEL_FILE) -r ../../UrhoEditBin/.obj/UrhoEdit1.0.0
 
 
 clean:compiler_clean 
@@ -495,17 +517,17 @@ compiler_rcc_clean:
 	-$(DEL_FILE) ../../UrhoEditBin/.rcc/qrc_res.cpp
 ../../UrhoEditBin/.rcc/qrc_res.cpp: res.qrc \
 		Resources/Images/float.png \
-		Resources/Images/run.png \
 		Resources/Images/close.png \
+		Resources/Images/run.png \
 		Styles/DarkMainWin.qss \
 		Styles/DarkMainMac.qss \
 		Styles/QLineEditConsoleWin.qss \
 		Styles/QLineEditConsoleMac.qss
 	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/rcc -name res res.qrc -o ../../UrhoEditBin/.rcc/qrc_res.cpp
 
-compiler_moc_header_make_all: ../../UrhoEditBin/.moc/moc_MainWindow.cpp ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
+compiler_moc_header_make_all: ../../UrhoEditBin/.moc/moc_MainWindow.cpp ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp ../../UrhoEditBin/.moc/moc_codeEditor.cpp ../../UrhoEditBin/.moc/moc_highlighter.cpp ../../UrhoEditBin/.moc/moc_searchWidget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) ../../UrhoEditBin/.moc/moc_MainWindow.cpp ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
+	-$(DEL_FILE) ../../UrhoEditBin/.moc/moc_MainWindow.cpp ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp ../../UrhoEditBin/.moc/moc_codeEditor.cpp ../../UrhoEditBin/.moc/moc_highlighter.cpp ../../UrhoEditBin/.moc/moc_searchWidget.cpp
 ../../UrhoEditBin/.moc/moc_MainWindow.cpp: ../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QStackedWidget \
@@ -517,6 +539,184 @@ compiler_moc_header_clean:
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qdialog.h \
 		NewResourceDialog.h
 	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) NewResourceDialog.h -o ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
+
+../../UrhoEditBin/.moc/moc_codeEditor.cpp: ../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocumentWriter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCompleter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcompleter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QWheelEvent \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qevent.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		CodeEditor/bookMark.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
+		CodeEditor/highlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QSyntaxHighlighter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsyntaxhighlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
+		CodeEditor/codeEditor.h \
+		CodeEditor/miniMap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QFrame \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextOption \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QGraphicsOpacityEffect \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qgraphicseffect.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QFontMetrics \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPainter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QColor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPen \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QBrush \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/Qt \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QPropertyAnimation \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qpropertyanimation.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocument \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
+		CodeEditor/addRemoveText.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoCommand \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qundostack.h \
+		CodeEditor/codeEditor.h
+	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) CodeEditor/codeEditor.h -o ../../UrhoEditBin/.moc/moc_codeEditor.cpp
+
+../../UrhoEditBin/.moc/moc_highlighter.cpp: ../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QSyntaxHighlighter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsyntaxhighlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
+		CodeEditor/codeEditor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocumentWriter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCompleter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcompleter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QWheelEvent \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qevent.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		CodeEditor/bookMark.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
+		CodeEditor/highlighter.h \
+		CodeEditor/miniMap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QFrame \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextOption \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QGraphicsOpacityEffect \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qgraphicseffect.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QFontMetrics \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPainter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QColor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPen \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QBrush \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/Qt \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QPropertyAnimation \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qpropertyanimation.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocument \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
+		CodeEditor/addRemoveText.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoCommand \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qundostack.h \
+		CodeEditor/highlighter.h
+	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) CodeEditor/highlighter.h -o ../../UrhoEditBin/.moc/moc_highlighter.cpp
+
+../../UrhoEditBin/.moc/moc_searchWidget.cpp: ../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCheckBox \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcheckbox.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QHBoxLayout \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qboxlayout.h \
+		CodeEditor/codeEditor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocumentWriter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCompleter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcompleter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QWheelEvent \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qevent.h \
+		CodeEditor/bookMark.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
+		CodeEditor/highlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QSyntaxHighlighter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsyntaxhighlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
+		CodeEditor/miniMap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QFrame \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextOption \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QGraphicsOpacityEffect \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qgraphicseffect.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QFontMetrics \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPainter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QColor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPen \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QBrush \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/Qt \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QPropertyAnimation \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qpropertyanimation.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocument \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
+		CodeEditor/addRemoveText.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoCommand \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qundostack.h \
+		CodeEditor/searchWidget.h
+	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) CodeEditor/searchWidget.h -o ../../UrhoEditBin/.moc/moc_searchWidget.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -579,6 +779,455 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		../../UrhoEditBin/.uic/ui_NewResourceDialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/NewResourceDialog.o NewResourceDialog.cpp
 
+../../UrhoEditBin/.obj/addRemoveText.o: CodeEditor/addRemoveText.cpp CodeEditor/addRemoveText.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoCommand \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qundostack.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/addRemoveText.o CodeEditor/addRemoveText.cpp
+
+../../UrhoEditBin/.obj/backtraceWidget.o: CodeEditor/backtraceWidget.cpp CodeEditor/backtraceWidget.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QListView \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qlistview.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QVBoxLayout \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qboxlayout.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/backtraceWidget.o CodeEditor/backtraceWidget.cpp
+
+../../UrhoEditBin/.obj/bookMark.o: CodeEditor/bookMark.cpp CodeEditor/bookMark.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextobject.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/bookMark.o CodeEditor/bookMark.cpp
+
+../../UrhoEditBin/.obj/codeEditor.o: CodeEditor/codeEditor.cpp CodeEditor/codeEditor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocumentWriter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCompleter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcompleter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QWheelEvent \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qevent.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		CodeEditor/bookMark.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
+		CodeEditor/highlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QSyntaxHighlighter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsyntaxhighlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
+		CodeEditor/miniMap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QFrame \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextOption \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QGraphicsOpacityEffect \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qgraphicseffect.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QFontMetrics \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPainter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QColor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPen \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QBrush \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/Qt \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QPropertyAnimation \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qpropertyanimation.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocument \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
+		CodeEditor/addRemoveText.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoCommand \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qundostack.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QtGui \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qaccessible.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qaccessiblebridge.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qaccessibleobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qaccessibleplugin.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbitmap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qicon.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qiconengine.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qiconengineplugin.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qimage.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qimageiohandler.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qimagereader.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qimagewriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qmovie.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpicture.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpictureformatplugin.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpixmapcache.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qstandarditemmodel.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qclipboard.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qdrag.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qgenericplugin.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qgenericpluginfactory.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qguiapplication.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qinputmethod.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qoffscreensurface.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglcontext.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qscreen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsessionmanager.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qstylehints.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsurface.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsurfaceformat.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qwindow.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qgenericmatrix.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qmatrix4x4.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qquaternion.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qvector3d.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qvector4d.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopengl.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglbuffer.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopengldebug.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglframebufferobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglfunctions.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglpaintdevice.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglpixeltransferoptions.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglshaderprogram.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopengltexture.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopengltimerquery.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglversionfunctions.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglvertexarrayobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbackingstore.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpagedpaintdevice.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpaintengine.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainterpath.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpdfwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qregion.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfont.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qstatictext.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentfragment.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtexttable.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qdesktopservices.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtguiversion.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QKeyEvent \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QAbstractItemView \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qabstractitemview.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QtDebug \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qdebug.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QApplication \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qapplication.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QModelIndex \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qabstractitemmodel.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QAbstractItemModel \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QScrollBar \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qscrollbar.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QTimer \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qtimer.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QFile \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qfile.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoStack \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QDebug \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMessageBox \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmessagebox.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/codeEditor.o CodeEditor/codeEditor.cpp
+
+../../UrhoEditBin/.obj/highlighter.o: CodeEditor/highlighter.cpp ../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QtGui \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qaccessible.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qaccessiblebridge.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qaccessibleobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qaccessibleplugin.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbitmap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qicon.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qiconengine.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qiconengineplugin.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qimage.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qimageiohandler.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qimagereader.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qimagewriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qmovie.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpicture.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpictureformatplugin.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpixmap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpixmapcache.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qstandarditemmodel.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qclipboard.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qdrag.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qevent.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qgenericplugin.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qgenericpluginfactory.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qguiapplication.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qinputmethod.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qkeysequence.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qoffscreensurface.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglcontext.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpalette.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qscreen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsessionmanager.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qstylehints.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsurface.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsurfaceformat.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtouchdevice.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qwindow.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qwindowdefs.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qgenericmatrix.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qmatrix4x4.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qquaternion.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qvector2d.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qvector3d.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qvector4d.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopengl.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglbuffer.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopengldebug.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglframebufferobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglfunctions.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglpaintdevice.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglpixeltransferoptions.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglshaderprogram.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopengltexture.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopengltimerquery.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglversionfunctions.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qopenglvertexarrayobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbackingstore.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qmatrix.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpagedpaintdevice.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpaintdevice.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpaintengine.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainterpath.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpdfwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpolygon.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qregion.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qrgb.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtransform.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qabstracttextdocumentlayout.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfont.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontdatabase.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontinfo.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qglyphrun.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qrawfont.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qstatictext.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsyntaxhighlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentfragment.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextlayout.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtexttable.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qdesktopservices.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qvalidator.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtguiversion.h \
+		CodeEditor/highlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QSyntaxHighlighter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
+		CodeEditor/codeEditor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocumentWriter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCompleter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcompleter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QWheelEvent \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		CodeEditor/bookMark.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+		CodeEditor/miniMap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QFrame \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextOption \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QGraphicsOpacityEffect \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qgraphicseffect.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QFontMetrics \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPainter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QColor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPen \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QBrush \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/Qt \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QPropertyAnimation \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qpropertyanimation.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocument \
+		CodeEditor/addRemoveText.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoCommand \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qundostack.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/highlighter.o CodeEditor/highlighter.cpp
+
+../../UrhoEditBin/.obj/locaterWidget.o: CodeEditor/locaterWidget.cpp CodeEditor/locaterWidget.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QVBoxLayout \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qboxlayout.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QTextEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qtextedit.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/locaterWidget.o CodeEditor/locaterWidget.cpp
+
+../../UrhoEditBin/.obj/miniMap.o: CodeEditor/miniMap.cpp CodeEditor/miniMap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QFrame \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextOption \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QGraphicsOpacityEffect \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qgraphicseffect.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QFontMetrics \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPainter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QColor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPen \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QBrush \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/Qt \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QPropertyAnimation \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qpropertyanimation.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocument \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
+		CodeEditor/codeEditor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocumentWriter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCompleter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcompleter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QWheelEvent \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qevent.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		CodeEditor/bookMark.h \
+		CodeEditor/highlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QSyntaxHighlighter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsyntaxhighlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
+		CodeEditor/addRemoveText.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoCommand \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qundostack.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QScrollBar \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qscrollbar.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/miniMap.o CodeEditor/miniMap.cpp
+
+../../UrhoEditBin/.obj/searchWidget.o: CodeEditor/searchWidget.cpp CodeEditor/searchWidget.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qwidget.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPushButton \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qpushbutton.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QLineEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qlineedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCheckBox \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcheckbox.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QLabel \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qlabel.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QHBoxLayout \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qboxlayout.h \
+		CodeEditor/codeEditor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QPlainTextEdit \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qplaintextedit.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocumentWriter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocumentwriter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QCompleter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qcompleter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QWheelEvent \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qevent.h \
+		CodeEditor/bookMark.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextBlock \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextobject.h \
+		CodeEditor/highlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QSyntaxHighlighter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qsyntaxhighlighter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCharFormat \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextformat.h \
+		CodeEditor/miniMap.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QFrame \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qframe.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextOption \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextoption.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QGraphicsOpacityEffect \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qgraphicseffect.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QFontMetrics \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qfontmetrics.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPainter \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpainter.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QColor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qcolor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QPen \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qpen.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QBrush \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qbrush.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/Qt \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qnamespace.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QPropertyAnimation \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qpropertyanimation.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextCursor \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextcursor.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/QTextDocument \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers/qtextdocument.h \
+		CodeEditor/addRemoveText.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QUndoCommand \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qundostack.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QStyle \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qstyle.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QDebug \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qdebug.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/searchWidget.o CodeEditor/searchWidget.cpp
+
 ../../UrhoEditBin/.obj/qrc_res.o: ../../UrhoEditBin/.rcc/qrc_res.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/qrc_res.o ../../UrhoEditBin/.rcc/qrc_res.cpp
 
@@ -587,6 +1236,15 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 ../../UrhoEditBin/.obj/moc_NewResourceDialog.o: ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/moc_NewResourceDialog.o ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
+
+../../UrhoEditBin/.obj/moc_codeEditor.o: ../../UrhoEditBin/.moc/moc_codeEditor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/moc_codeEditor.o ../../UrhoEditBin/.moc/moc_codeEditor.cpp
+
+../../UrhoEditBin/.obj/moc_highlighter.o: ../../UrhoEditBin/.moc/moc_highlighter.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/moc_highlighter.o ../../UrhoEditBin/.moc/moc_highlighter.cpp
+
+../../UrhoEditBin/.obj/moc_searchWidget.o: ../../UrhoEditBin/.moc/moc_searchWidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/moc_searchWidget.o ../../UrhoEditBin/.moc/moc_searchWidget.cpp
 
 ####### Install
 
