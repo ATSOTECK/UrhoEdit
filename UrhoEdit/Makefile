@@ -486,11 +486,13 @@ compiler_rcc_make_all: ../../UrhoEditBin/.rcc/qrc_res.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) ../../UrhoEditBin/.rcc/qrc_res.cpp
 ../../UrhoEditBin/.rcc/qrc_res.cpp: res.qrc \
-		Styles/QLineEditConsoleWin.qss \
+		Resources/Images/float.png \
+		Resources/Images/run.png \
+		Resources/Images/close.png \
 		Styles/DarkMainWin.qss \
-		Styles/QLineEditConsoleMac.qss \
 		Styles/DarkMainMac.qss \
-		Resources/Images/run.png
+		Styles/QLineEditConsoleWin.qss \
+		Styles/QLineEditConsoleMac.qss
 	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/rcc -name res res.qrc -o ../../UrhoEditBin/.rcc/qrc_res.cpp
 
 compiler_moc_header_make_all: ../../UrhoEditBin/.moc/moc_MainWindow.cpp
@@ -535,7 +537,9 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QFile \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qfile.h \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QTextStream \
-		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qtextstream.h
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qtextstream.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QAction \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qaction.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/MainWindow.o MainWindow.cpp
 
 ../../UrhoEditBin/.obj/qrc_res.o: ../../UrhoEditBin/.rcc/qrc_res.cpp 

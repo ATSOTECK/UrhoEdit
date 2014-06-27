@@ -329,8 +329,8 @@ background: #1C1C1C;/*292925;*/
 
 QDockWidget {
 border: 1px solid lightgray;
-titlebar-close-icon: url(:/Images/16x16/close3.png);
-titlebar-normal-icon: url(:/Images/16x16/float2.png);
+titlebar-close-icon: url(:/Resources/Images/close.png);
+titlebar-normal-icon: url(:/Resources/Images/float.png);
 /*titlebar-close-icon: url(close.png);
 titlebar-normal-icon: url(float.png);*/
 }
