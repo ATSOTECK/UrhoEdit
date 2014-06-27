@@ -27,6 +27,8 @@ public slots:
     void save();
     void saveAs();
     
+    void newResource();
+    
     void runGame();
     
 private:

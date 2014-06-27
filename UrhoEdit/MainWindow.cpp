@@ -8,6 +8,8 @@
 #include <QDir>
 #include <QDebug>
 
+#include "NewResourceDialog.h"
+
 MainWindow *w;
 
 void setMainWindow(MainWindow *mw) {
@@ -46,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(open()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionSave_as, SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(ui->actionNew_Resource, SIGNAL(triggered()), this, SLOT(newResource()));
     connect(ui->actionRun, SIGNAL(triggered()), this, SLOT(runGame()));
     
     qInstallMessageHandler(catchMessage);
@@ -129,6 +132,11 @@ void MainWindow::save() {
 
 void MainWindow::saveAs() {
     
+}
+
+void MainWindow::newResource() {
+    NewResourceDialog *nd = new NewResourceDialog(this);
+    nd->exec();
 }
 
 void MainWindow::runGame() {

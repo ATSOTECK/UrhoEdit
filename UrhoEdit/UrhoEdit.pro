@@ -20,11 +20,14 @@ OBJECTS_DIR = ../../UrhoEditBin/.obj
 
 
 SOURCES += main.cpp\
-        MainWindow.cpp
+        MainWindow.cpp \
+    NewResourceDialog.cpp
 
-HEADERS  += MainWindow.h
+HEADERS  += MainWindow.h \
+    NewResourceDialog.h
 
-FORMS    += MainWindow.ui
+FORMS    += MainWindow.ui \
+    NewResourceDialog.ui
 
 RESOURCES += \
     res.qrc

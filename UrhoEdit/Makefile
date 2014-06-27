@@ -46,12 +46,16 @@ OBJECTS_DIR   = ../../UrhoEditBin/.obj/
 ####### Files
 
 SOURCES       = main.cpp \
-		MainWindow.cpp ../../UrhoEditBin/.rcc/qrc_res.cpp \
-		../../UrhoEditBin/.moc/moc_MainWindow.cpp
+		MainWindow.cpp \
+		NewResourceDialog.cpp ../../UrhoEditBin/.rcc/qrc_res.cpp \
+		../../UrhoEditBin/.moc/moc_MainWindow.cpp \
+		../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
 OBJECTS       = ../../UrhoEditBin/.obj/main.o \
 		../../UrhoEditBin/.obj/MainWindow.o \
+		../../UrhoEditBin/.obj/NewResourceDialog.o \
 		../../UrhoEditBin/.obj/qrc_res.o \
-		../../UrhoEditBin/.obj/moc_MainWindow.o
+		../../UrhoEditBin/.obj/moc_MainWindow.o \
+		../../UrhoEditBin/.obj/moc_NewResourceDialog.o
 DIST          = ../../../Qt5.2.0.ios/5.2.0/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/mkspecs/qdevice.pri \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/mkspecs/features/device_config.prf \
@@ -205,7 +209,7 @@ first: all
 
 all: Makefile ../../UrhoEditBin/UrhoEdit.app/Contents/PkgInfo ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/empty.lproj ../../UrhoEditBin/UrhoEdit.app/Contents/Info.plist $(TARGET)
 
-$(TARGET): ../../UrhoEditBin/.uic/ui_MainWindow.h $(OBJECTS)  
+$(TARGET): ../../UrhoEditBin/.uic/ui_MainWindow.h ../../UrhoEditBin/.uic/ui_NewResourceDialog.h $(OBJECTS)  
 	@test -d ../../UrhoEditBin/UrhoEdit.app/Contents/MacOS/ || mkdir -p ../../UrhoEditBin/UrhoEdit.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -459,7 +463,7 @@ qmake_all: FORCE
 	@sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,@TYPEINFO@,????,g" -e "s,@ICON@,,g" -e "s,@EXECUTABLE@,UrhoEdit,g" -e "s,@TYPEINFO@,????,g" ../../../Qt5.2.0.ios/5.2.0/clang_64/mkspecs/macx-clang/Info.plist.app >../../UrhoEditBin/UrhoEdit.app/Contents/Info.plist
 dist: 
 	@test -d ../../UrhoEditBin/.obj/UrhoEdit1.0.0 || mkdir -p ../../UrhoEditBin/.obj/UrhoEdit1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents res.qrc ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.h ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents main.cpp MainWindow.cpp ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.ui ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && (cd `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0` && $(TAR) UrhoEdit1.0.0.tar UrhoEdit1.0.0 && $(COMPRESS) UrhoEdit1.0.0.tar) && $(MOVE) `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0`/UrhoEdit1.0.0.tar.gz . && $(DEL_FILE) -r ../../UrhoEditBin/.obj/UrhoEdit1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents res.qrc ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.h NewResourceDialog.h ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents main.cpp MainWindow.cpp NewResourceDialog.cpp ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.ui NewResourceDialog.ui ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && (cd `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0` && $(TAR) UrhoEdit1.0.0.tar UrhoEdit1.0.0 && $(COMPRESS) UrhoEdit1.0.0.tar) && $(MOVE) `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0`/UrhoEdit1.0.0.tar.gz . && $(DEL_FILE) -r ../../UrhoEditBin/.obj/UrhoEdit1.0.0
 
 
 clean:compiler_clean 
@@ -495,21 +499,31 @@ compiler_rcc_clean:
 		Styles/QLineEditConsoleMac.qss
 	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/rcc -name res res.qrc -o ../../UrhoEditBin/.rcc/qrc_res.cpp
 
-compiler_moc_header_make_all: ../../UrhoEditBin/.moc/moc_MainWindow.cpp
+compiler_moc_header_make_all: ../../UrhoEditBin/.moc/moc_MainWindow.cpp ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) ../../UrhoEditBin/.moc/moc_MainWindow.cpp
+	-$(DEL_FILE) ../../UrhoEditBin/.moc/moc_MainWindow.cpp ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
 ../../UrhoEditBin/.moc/moc_MainWindow.cpp: ../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QStackedWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qstackedwidget.h \
 		MainWindow.h
 	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) MainWindow.h -o ../../UrhoEditBin/.moc/moc_MainWindow.cpp
 
+../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp: ../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QDialog \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qdialog.h \
+		NewResourceDialog.h
+	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 $(INCPATH) NewResourceDialog.h -o ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ../../UrhoEditBin/.uic/ui_MainWindow.h
+compiler_uic_make_all: ../../UrhoEditBin/.uic/ui_MainWindow.h ../../UrhoEditBin/.uic/ui_NewResourceDialog.h
 compiler_uic_clean:
-	-$(DEL_FILE) ../../UrhoEditBin/.uic/ui_MainWindow.h
+	-$(DEL_FILE) ../../UrhoEditBin/.uic/ui_MainWindow.h ../../UrhoEditBin/.uic/ui_NewResourceDialog.h
 ../../UrhoEditBin/.uic/ui_MainWindow.h: MainWindow.ui
 	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/uic MainWindow.ui -o ../../UrhoEditBin/.uic/ui_MainWindow.h
+
+../../UrhoEditBin/.uic/ui_NewResourceDialog.h: NewResourceDialog.ui
+	/Users/Skyler/Qt5.2.0.ios/5.2.0/clang_64/bin/uic NewResourceDialog.ui -o ../../UrhoEditBin/.uic/ui_NewResourceDialog.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -526,6 +540,8 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 ../../UrhoEditBin/.obj/main.o: main.cpp MainWindow.h \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QStackedWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qstackedwidget.h \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QApplication \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/main.o main.cpp
@@ -533,20 +549,40 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 ../../UrhoEditBin/.obj/MainWindow.o: MainWindow.cpp MainWindow.h \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QMainWindow \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qmainwindow.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QStackedWidget \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qstackedwidget.h \
 		../../UrhoEditBin/.uic/ui_MainWindow.h \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QFile \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qfile.h \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QTextStream \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qtextstream.h \
 		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QAction \
-		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qaction.h
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qaction.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QFileDialog \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qfiledialog.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QDir \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qdir.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/QDebug \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers/qdebug.h \
+		NewResourceDialog.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QDialog \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/MainWindow.o MainWindow.cpp
+
+../../UrhoEditBin/.obj/NewResourceDialog.o: NewResourceDialog.cpp NewResourceDialog.h \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/QDialog \
+		../../../Qt5.2.0.ios/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers/qdialog.h \
+		../../UrhoEditBin/.uic/ui_NewResourceDialog.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/NewResourceDialog.o NewResourceDialog.cpp
 
 ../../UrhoEditBin/.obj/qrc_res.o: ../../UrhoEditBin/.rcc/qrc_res.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/qrc_res.o ../../UrhoEditBin/.rcc/qrc_res.cpp
 
 ../../UrhoEditBin/.obj/moc_MainWindow.o: ../../UrhoEditBin/.moc/moc_MainWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/moc_MainWindow.o ../../UrhoEditBin/.moc/moc_MainWindow.cpp
+
+../../UrhoEditBin/.obj/moc_NewResourceDialog.o: ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ../../UrhoEditBin/.obj/moc_NewResourceDialog.o ../../UrhoEditBin/.moc/moc_NewResourceDialog.cpp
 
 ####### Install
 
