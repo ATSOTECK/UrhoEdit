@@ -207,7 +207,7 @@ first: all
 
 ####### Build rules
 
-all: Makefile ../../UrhoEditBin/UrhoEdit.app/Contents/PkgInfo ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/empty.lproj ../../UrhoEditBin/UrhoEdit.app/Contents/Info.plist $(TARGET)
+all: Makefile ../../UrhoEditBin/UrhoEdit.app/Contents/PkgInfo ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/empty.lproj ../../UrhoEditBin/UrhoEdit.app/Contents/Info.plist ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/icon.icns $(TARGET)
 
 $(TARGET): ../../UrhoEditBin/.uic/ui_MainWindow.h ../../UrhoEditBin/.uic/ui_NewResourceDialog.h $(OBJECTS)  
 	@test -d ../../UrhoEditBin/UrhoEdit.app/Contents/MacOS/ || mkdir -p ../../UrhoEditBin/UrhoEdit.app/Contents/MacOS/
@@ -460,7 +460,11 @@ qmake_all: FORCE
 ../../UrhoEditBin/UrhoEdit.app/Contents/Info.plist: 
 	@test -d ../../UrhoEditBin/UrhoEdit.app/Contents || mkdir -p ../../UrhoEditBin/UrhoEdit.app/Contents
 	@$(DEL_FILE) ../../UrhoEditBin/UrhoEdit.app/Contents/Info.plist
-	@sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,@TYPEINFO@,????,g" -e "s,@ICON@,,g" -e "s,@EXECUTABLE@,UrhoEdit,g" -e "s,@TYPEINFO@,????,g" ../../../Qt5.2.0.ios/5.2.0/clang_64/mkspecs/macx-clang/Info.plist.app >../../UrhoEditBin/UrhoEdit.app/Contents/Info.plist
+	@sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,@TYPEINFO@,????,g" -e "s,@ICON@,icon.icns,g" -e "s,@EXECUTABLE@,UrhoEdit,g" -e "s,@TYPEINFO@,????,g" Resources/Info.plist >../../UrhoEditBin/UrhoEdit.app/Contents/Info.plist
+../../UrhoEditBin/UrhoEdit.app/Contents/Resources/icon.icns: Resources/Images/icon.icns
+	@test -d ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/ || mkdir -p ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/
+	@$(DEL_FILE) ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/icon.icns
+	@$(COPY_FILE) Resources/Images/icon.icns ../../UrhoEditBin/UrhoEdit.app/Contents/Resources/icon.icns
 dist: 
 	@test -d ../../UrhoEditBin/.obj/UrhoEdit1.0.0 || mkdir -p ../../UrhoEditBin/.obj/UrhoEdit1.0.0
 	$(COPY_FILE) --parents $(SOURCES) $(DIST) ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents res.qrc ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.h NewResourceDialog.h ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents main.cpp MainWindow.cpp NewResourceDialog.cpp ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && $(COPY_FILE) --parents MainWindow.ui NewResourceDialog.ui ../../UrhoEditBin/.obj/UrhoEdit1.0.0/ && (cd `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0` && $(TAR) UrhoEdit1.0.0.tar UrhoEdit1.0.0 && $(COMPRESS) UrhoEdit1.0.0.tar) && $(MOVE) `dirname ../../UrhoEditBin/.obj/UrhoEdit1.0.0`/UrhoEdit1.0.0.tar.gz . && $(DEL_FILE) -r ../../UrhoEditBin/.obj/UrhoEdit1.0.0

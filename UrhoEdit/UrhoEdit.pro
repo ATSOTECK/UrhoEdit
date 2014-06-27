@@ -31,3 +31,9 @@ FORMS    += MainWindow.ui \
 
 RESOURCES += \
     res.qrc
+
+macx {
+    TARGET = UrhoEdit
+    QMAKE_INFO_PLIST = Resources/Info.plist
+    ICON = Resources/Images/icon.icns
+}
