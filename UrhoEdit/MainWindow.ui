@@ -34,6 +34,7 @@
     <addaction name="actionNew_Resource"/>
     <addaction name="separator"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionOpen_Script"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
@@ -209,6 +210,11 @@
    </property>
    <property name="shortcut">
     <string>Esc</string>
+   </property>
+  </action>
+  <action name="actionOpen_Script">
+   <property name="text">
+    <string>Open Script</string>
    </property>
   </action>
  </widget>

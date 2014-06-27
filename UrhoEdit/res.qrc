@@ -7,5 +7,6 @@
         <file>Resources/Images/run.png</file>
         <file>Resources/Images/close.png</file>
         <file>Resources/Images/float.png</file>
+        <file>Resources/AutoCompleteWords.txt</file>
     </qresource>
 </RCC>

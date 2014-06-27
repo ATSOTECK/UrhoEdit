@@ -1,8 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QProcess>
+#include <QCompleter>
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QAbstractItemModel>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +25,10 @@ public:
     
     void setupUi();
     
+    void createCodeEditor();
+    
+    QAbstractItemModel *modelFromFile(const QString &fileName);
+    
 public slots:
     void open();
     void save();
@@ -31,12 +38,20 @@ public slots:
     
     void showConsole();
     
+    void updateConsoleSTDOut();
+    void updateConsoleSTDErr();
+    void updateConsole(const QString &str);
+    
     void runGame();
     
 private:
     Ui::MainWindow *ui;
     
     QStackedWidget *mCentralWidget;
+    
+    QCompleter *mCompleter;
+    
+    QProcess *mPlayer;
 };
 
 void setMainWindow(MainWindow *mw);

@@ -19,6 +19,11 @@ RCC_DIR = ../../UrhoEditBin/.rcc
 OBJECTS_DIR = ../../UrhoEditBin/.obj
 
 
+player.path = %{buildDir}../Player
+player.files += %{sourceDir}/Resources/Player/Urho3DPlayer
+ 
+INSTALLS += player
+
 SOURCES += main.cpp\
         MainWindow.cpp \
     NewResourceDialog.cpp \
@@ -29,7 +34,8 @@ SOURCES += main.cpp\
     CodeEditor/highlighter.cpp \
     CodeEditor/locaterWidget.cpp \
     CodeEditor/miniMap.cpp \
-    CodeEditor/searchWidget.cpp
+    CodeEditor/searchWidget.cpp \
+    ConsoleHighlighter.cpp
 
 HEADERS  += MainWindow.h \
     NewResourceDialog.h \
@@ -40,7 +46,8 @@ HEADERS  += MainWindow.h \
     CodeEditor/highlighter.h \
     CodeEditor/locaterWidget.h \
     CodeEditor/miniMap.h \
-    CodeEditor/searchWidget.h
+    CodeEditor/searchWidget.h \
+    ConsoleHighlighter.h
 
 FORMS    += MainWindow.ui \
     NewResourceDialog.ui

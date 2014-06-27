@@ -7,8 +7,12 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QDebug>
+#include <QStringListModel>
 
 #include "NewResourceDialog.h"
+#include "CodeEditor/codeEditor.h"
+#include "CodeEditor/highlighter.h"
+#include "ConsoleHighlighter.h"
 
 MainWindow *w;
 
@@ -51,6 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionNew_Resource, SIGNAL(triggered()), this, SLOT(newResource()));
     connect(ui->actionShow_Console, SIGNAL(triggered()), this, SLOT(showConsole()));
     connect(ui->actionRun, SIGNAL(triggered()), this, SLOT(runGame()));
+    
+    createCodeEditor();
     
     qInstallMessageHandler(catchMessage);
 }
@@ -106,6 +112,8 @@ void MainWindow::setupUi() {
     
     ui->mainToolBar->addAction(actionRun);
     
+    new ConsoleHighlighter(ui->console->document()); 
+    
     QFile *style;
     QString styleText;
     
@@ -120,6 +128,65 @@ void MainWindow::setupUi() {
     style->close();
     delete style;
     setStyleSheet(styleText);
+}
+
+void MainWindow::createCodeEditor() {
+    CodeEditor *codeEditor = new CodeEditor("Untitled.as", this);
+    codeEditor->setUndoRedoEnabled(true);
+    codeEditor->setTabStopWidth(29);
+    
+#ifdef Q_OS_WIN
+    int size = 10;
+    QFont font("Consolas", size);
+#endif
+    
+#ifdef Q_OS_MAC
+    int size = 12;
+    QFont font("Monaco", size);
+#endif
+    
+    codeEditor->setFont(font);
+    new Highlighter(codeEditor->document());
+    mCompleter = new QCompleter();
+    
+    mCompleter->setModel(modelFromFile(":/Resources/AutocompleteWords.txt"));
+    mCompleter->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+    mCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    mCompleter->setWrapAround(false);
+    mCompleter->popup()->setStyleSheet("color: #848484;"
+                                       "background-color: #2E2E2E;"
+                                       "selection-background-color: #424242;"
+                                       "alternate-background-color: #292929;");
+    mCompleter->popup()->setAlternatingRowColors(true);
+    codeEditor->setCompleter(mCompleter);
+    
+    connect(codeEditor, SIGNAL(cursorPosition(int)), SLOT(getCursorPosition(int)));
+    connect(codeEditor, SIGNAL(pressed(QString)), this, SLOT(keyPressed(QString)));
+    
+    mCentralWidget->addWidget(codeEditor);
+    codeEditor->setFocus();
+    codeEditor->updateCorner();
+}
+
+QAbstractItemModel *MainWindow::modelFromFile(const QString &fileName) {
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly)) {
+        qDebug() << "no open is a sad";
+        return new QStringListModel(mCompleter);
+    }
+
+    QStringList words;
+    
+    while (!file.atEnd()) {
+        QByteArray line = file.readLine();
+        if (!line.isEmpty()) {
+            words << line.trimmed();
+        }
+    }
+    
+    words.sort();
+    
+    return new QStringListModel(words, mCompleter);
 }
 
 void MainWindow::open() {
@@ -144,6 +211,24 @@ void MainWindow::showConsole() {
     ui->consoleDockWidget->setHidden(!ui->consoleDockWidget->isHidden());
 }
 
-void MainWindow::runGame() {
+void MainWindow::updateConsoleSTDOut() {
+    updateConsole(mPlayer->readAllStandardOutput());
+}
+
+void MainWindow::updateConsoleSTDErr() {
+    updateConsole(mPlayer->readAllStandardError());
+}
+
+void MainWindow::updateConsole(const QString &str) {
+    ui->console->append(str);
+}
+
+void MainWindow::MainWindow::runGame() {
+    ui->console->clear();
+    ui->consoleDockWidget->show();
     
+    mPlayer = new QProcess(this);
+    connect(mPlayer, SIGNAL(readyReadStandardOutput()), this, SLOT(updateConsoleSTDOut()));
+    connect(mPlayer, SIGNAL(readyReadStandardError()), this, SLOT(updateConsoleSTDErr()));
+    mPlayer->start("/Users/Skyler/Documents/UrhoEdit/UrhoEdit/Resources/Player/Urho3DPlayer", QStringList() << "/Users/Skyler/Downloads/Urho3D-master/Bin/Data/Scripts/19_VehicleDemo.as");
 }

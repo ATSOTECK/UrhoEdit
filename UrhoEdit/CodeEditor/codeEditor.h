@@ -92,6 +92,8 @@ public slots:
     void setUseTabs(bool tabs);
     void setShowTabsSpaces(bool tabsSpaces);
     void setUseWordWrap(bool wrap);
+    
+    void updateCorner();
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -113,7 +115,6 @@ private slots:
     void updateMiniMapScrollPos();
     void insertCompletion(const QString &completion);
     void blockOrColumnChanged();
-    void updateCorner();
     void highlightJumpToDefinition(QTextCursor &cursor, bool pressed);
     
 signals:
