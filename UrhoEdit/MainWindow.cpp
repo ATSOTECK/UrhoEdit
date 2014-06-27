@@ -36,7 +36,8 @@ void catchMessage(QtMsgType type, const QMessageLogContext &, const QString &msg
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    mCentralWidget(new QStackedWidget(this))
 {
     ui->setupUi(this);
     
@@ -79,6 +80,8 @@ void MainWindow::fail(const QString &msg) {
 }
 
 void MainWindow::setupUi() {
+    setCentralWidget(mCentralWidget);
+    
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
     setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);

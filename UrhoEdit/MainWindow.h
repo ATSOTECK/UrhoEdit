@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,8 @@ public slots:
     
 private:
     Ui::MainWindow *ui;
+    
+    QStackedWidget *mCentralWidget;
 };
 
 void setMainWindow(MainWindow *mw);
